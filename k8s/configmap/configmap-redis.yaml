@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-redis
+data:
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "senhafacil"
+  POSTGRES_DB: "postgres"

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-desafio-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: postgres-desafio-sre
+      labels:
+        app: postgres-desafio-sre
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+              name: postgres-port
+          envFrom:
+            - configMapRef:
+                name: configmap-postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-postgres
+                  key: POSTGRES_PASSWORD
+  selector:
+    matchLabels:
+      app: postgres-desafio-sre

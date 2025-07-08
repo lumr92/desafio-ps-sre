@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-desafio-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: app-desafio-sre
+      labels:
+        app: app-desafio-sre
+    spec:
+      containers:
+        - name: app-container
+          image: lumr/app-desafio-sre:2.0
+          ports:
+            - containerPort: 5000
+              name: http-web
+            - containerPort: 9999
+              name: http-metrics
+          envFrom:
+            - configMapRef:
+                name: configmap-postgres
+            - configMapRef:
+                name: configmap-redis
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-postgres
+                  key: POSTGRES_PASSWORD
+  selector:
+    matchLabels:
+      app: app-desafio-sre

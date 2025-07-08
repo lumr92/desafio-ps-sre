@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-desafio-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: redis-desafio-sre
+      labels:
+        app: redis-desafio-sre
+    spec:
+      containers:
+        - name: redis-container
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+              name: redis-port
+  selector:
+    matchLabels:
+      app: redis-desafio-sre
