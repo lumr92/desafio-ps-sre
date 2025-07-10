@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      - name: List docker images
+        run: docker images
       - name: Run test
         run: docker run --rm my-image-name:latest
