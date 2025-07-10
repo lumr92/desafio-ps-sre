@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -qq -y \
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
+COPY /app/requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN opentelemetry-bootstrap -a install
 ENV OTEL_SERVICE_NAME=svc-app
