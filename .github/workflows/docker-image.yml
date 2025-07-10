@@ -18,6 +18,11 @@ jobs:
         run: docker build . --file Dockerfile --tag my-image-name:latest
       - name: Save docker image
         run: docker save my-image-name:latest -o image.tar
+      - name: Upload docker image
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: image.tar
         
 
   test_build:
@@ -26,7 +31,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Load docker images
+      - name: Download docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+      - name: Load docker image
         run: docker load -i image.tar
       - name: Run test
         run: docker run --rm my-image-name:latest
