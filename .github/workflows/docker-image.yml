@@ -31,10 +31,11 @@ jobs:
           context: .                                                           # Usa o diretório atual como contexto do build
           push: true                                                           # Habilita o push da imagem após o build
           tags: |                                                              # Define as tags para a imagem
-            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:latest              
-            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:${{ github.sha }} 
-            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:${{ github.ref }}   
-                                                                              
+            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:${{ github.sha }}
+          # Desabilita a adição automática de tags baseadas no ref
+          tags-from-ref: false
+          
       # Tags latest e da versão específica
       
       #- name: Config credenciais AWS
