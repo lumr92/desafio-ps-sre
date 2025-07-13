@@ -19,24 +19,42 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Config credenciais AWS
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Config credenciais DockerHub
+        uses: docker/login-action@v2
+        with: 
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASS }}
       
-      - name: Login no ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+      - name: Build and push image
+        uses: docker/build-push-action@v5                                      # Usa a ação oficial do Docker para build e push
+        with :
+          context: .                                                           # Usa o diretório atual como contexto do build
+          push: true                                                           # Habilita o push da imagem após o build
+          tags: |                                                              # Define as tags para a imagem
+            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:latest              
+            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:${{ github.sha }} 
+            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:${{ github.ref }}   
+                                                                              
+      # Tags latest e da versão específica
+      
+      #- name: Config credenciais AWS
+      #  uses: aws-actions/configure-aws-credentials@v4
+      #  with:
+      #    role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+      #    aws-region: ${{ secrets.AWS_REGION }}
+      
+      #- name: Login no ECR
+      #  id: login-ecr
+      #  uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push image para o ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry}}
-          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_DESAFIO_SRE}}
-          IMAGE_TAG: ${{ github.sha}}
-        run: |
-          # Build da imagem
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+      #- name: Build, tag, and push image para o ECR
+      #  env:
+      #    ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry}}
+      #    ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_DESAFIO_SRE}}
+      #    IMAGE_TAG: ${{ github.sha}}
+      #  run: |
+      #    # Build da imagem
+      #    docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
 
-          # Push da imagem
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #    # Push da imagem
+      #    docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
