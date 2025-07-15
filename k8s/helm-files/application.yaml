@@ -11,15 +11,12 @@ spec:
     repoURL: https://github.com/lumr/desafio-ps-sre.git
     path: k8s
     targetRevision: HEAD
-    directory:
-      recurse: true
+    directory: {}
     destination:
       #server: https://192.168.1.100:8443
       server: https://kubernetes.default.svc
       namespace: default
     syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
+      automated: {}
     syncOptions:
       - CreateNamespace=true
