@@ -40,7 +40,7 @@ jobs:
       - name: Atualizar imagem no deployment da aplicação
         run: |
           export IMAGE_TAG=${{ github.sha }}
-          envsubst < k8s/deployment/deploy-app.yaml | kubectl apply -f -
+          envsubst $'{IMAGE_TAG}' < k8s/deployment/deploy-app.yaml | kubectl apply -f -
           
       # Tags latest e da versão específica
       
