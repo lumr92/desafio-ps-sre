@@ -36,11 +36,6 @@ jobs:
            
           # Desabilita a adição automática de tags baseadas no ref
           tags-from-ref: false
-      
-      - name: Atualizar imagem no deployment da aplicação
-        run: |
-          export IMAGE_TAG=${{ github.sha }}
-          envsubst '${IMAGE_TAG}' < k8s/deployment/deploy-app.yaml | kubectl apply -f -
           
       # Tags latest e da versão específica
       
