@@ -2,3 +2,8 @@
 .terraform.lock.hcl
 ./terraform/terraform.tfstate
 ./terraform/terraform.tfstate.backup
+./terraform-aws/variables.tf
+./terraform-aws/terraform.tfstate
+./terraform-aws/terraform.tfstate.backup
+./terraform-aws/terraform.lock.hcl
+
