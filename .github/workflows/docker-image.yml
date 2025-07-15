@@ -35,7 +35,7 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:${{ github.sha }}
            
           # Desabilita a adição automática de tags baseadas no ref
-          tags-from-ref: false
+          tags-from-ref: falseGIT 
           
       # Tags latest e da versão específica
       
