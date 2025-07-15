@@ -43,14 +43,15 @@ jobs:
           git config --global user.email "lucasmenezes9251@gmail.com"
           git config --global user.name "Lucas de Menezes Rodrigues"
           git config --global --add safe.directory /github/workspace
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TOKEN_GITHUB }}
+          fetch-depth: 0  
         
       - name: Update deployment file
-        env:
-          TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
         run: |
-          # Configura a URL do repo
-          git remote set-url origin https://x-access-token:${TOKEN_GITHUB}@github.com/${{ github.repository }}.git
-
           # Atualiza arquivo de deployment com a nova tag
           sed -i "s|image:.*|image: lumr/app-desafio-sre:${{ github.sha }}|" k8s/deployment/deploy-app.yaml
           
