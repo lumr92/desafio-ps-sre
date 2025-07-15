@@ -33,6 +33,7 @@ jobs:
           tags: |                                                              # Define as tags para a imagem
             ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:${{ github.sha }}
+            envsubst < k8s/deployment/deploy-app.yaml | kubectl apply -f -
           # Desabilita a adição automática de tags baseadas no ref
           tags-from-ref: false
           

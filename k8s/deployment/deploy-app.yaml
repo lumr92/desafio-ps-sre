@@ -12,8 +12,7 @@ spec:
     spec:
       containers:
         - name: app-container
-          image: lumr/app-desafio-sre:2.0
-          ports:
+          image: lumr/app-desafio-sre:${{ github.sha }}
             - containerPort: 5000
               name: http-web
             - containerPort: 9999
