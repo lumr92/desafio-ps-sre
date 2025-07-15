@@ -49,8 +49,8 @@ jobs:
           TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
         run: |
           # Configura a URL do repo
-          git remote set-url origin https://x-access-token:${TOKEN_GITHUB}@github.com/lumr/desafio-ps-sre.git
-          
+          git remote set-url origin https://x-access-token:${TOKEN_GITHUB}@github.com/${{ github.repository }}.git
+
           # Atualiza arquivo de deployment com a nova tag
           sed -i "s|image:.*|image: lumr/app-desafio-sre:${{ github.sha }}|" k8s/deployment/deploy-app.yaml
           
