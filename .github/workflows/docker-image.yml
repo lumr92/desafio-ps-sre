@@ -35,8 +35,22 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:${{ github.sha }}
            
           # Desabilita a adição automática de tags baseadas no ref
-          tags-from-ref: falseGIT 
+          tags-from-ref: false
+      
+      - name: Update deployment file
+        run: |
+          # Atualiza arquivo de deployment com a nova tag
+          sed -i "s|image:.*|image: lumr/app-desafio-sre:${{ github.sha }}|" k8s/deployment/deploy-app.yaml
           
+          # adiciona as mudanças
+          git add k8s/deployment/deploy-app.yaml
+          
+          # commit as mudanças
+          git commit -m "Update deployment file para ${{ github.sha }}"
+          
+          # push as mudanças
+          git push origin main
+
       # Tags latest e da versão específica
       
       #- name: Config credenciais AWS
