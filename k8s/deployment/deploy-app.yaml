@@ -9,6 +9,7 @@ spec:
       name: app-desafio-sre
       labels:
         app: app-desafio-sre
+      namespace: default
     spec:
       containers:
         - name: app-container
