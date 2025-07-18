@@ -1,6 +1,6 @@
 # Criação de Role para garantir permissão para provisionamento do cluster K8s
 resource "aws_iam_role" "desafio-role-eks-cluster" {
-  name               = "Desafio-role-eks-cluster-LucasMenezes"
+  name = "Desafio-role-eks-cluster-LucasMenezes"
 
   assume_role_policy = <<EOF
   {
@@ -31,7 +31,7 @@ resource "aws_iam_role_policy_attachment" "desafio-attach-eks-service-policy" {
 
 # Criação de Role para garantir permissão para provisionamennto dos nodes
 resource "aws_iam_role" "desafio-role-nodes-eks-cluster" {
-  name               = "Desafio-role-nodes-cluster-LucasMenezes"
+  name = "Desafio-role-nodes-cluster-LucasMenezes"
 
   assume_role_policy = <<EOF
   {
@@ -72,29 +72,39 @@ resource "aws_iam_role_policy_attachment" "desafio-attach-nodes-worknode-policy"
 
 # Criação do cluster k8s
 resource "aws_eks_cluster" "desafio-cluster-eks" {
-  name                 = "Desafio-cluster-eks-LucasMenezes"
-  role_arn             = aws_iam_role.desafio-role-eks-cluster.arn
+  name     = "Desafio-cluster-eks-LucasMenezes"
+  role_arn = aws_iam_role.desafio-role-eks-cluster.arn
   vpc_config {
     security_group_ids = [aws_security_group.desafio-sg-cluster-eks.id]
-    subnet_ids         = [
-        aws_subnet.desafio-public-subnet-1.id,
-        aws_subnet.desafio-public-subnet-2.id,
+    subnet_ids = [
+      aws_subnet.desafio-public-subnet-1.id,
+      aws_subnet.desafio-public-subnet-2.id,
     ]
   }
 
   # Adicionando depends_on para garantir que as politicas sejam anexadas nas roles antes da criação do cluster
-  depends_on   = [ 
+  depends_on = [
     aws_iam_role_policy_attachment.desafio-attach-eks-cluster-policy,
     aws_iam_role_policy_attachment.desafio-attach-eks-service-policy,
     aws_iam_role_policy_attachment.desafio-attach-nodes-cluster-policy,
     aws_iam_role_policy_attachment.desafio-attach-nodes-EKS-CNI-policy,
     aws_iam_role_policy_attachment.desafio-attach-nodes-EC2-container-registry-readonly-policy,
     aws_iam_role_policy_attachment.desafio-attach-nodes-worknode-policy,
-   ]
+  ]
 
-   tags = {
-    Name       = "Desafio-EKS-LucasMenezes"
+  tags = {
+    Name = "Desafio-EKS-LucasMenezes"
   }
+}
+
+data "tls_certificate" "cluster" {
+  url = aws_eks_cluster.desafio-cluster-eks.identity[0].oidc[0].issuer
+}
+
+resource "aws_iam_openid_connect_provider" "cluster" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.cluster.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.desafio-cluster-eks.identity[0].oidc[0].issuer
 }
 
 # Configurando node group on-demand
@@ -106,13 +116,13 @@ resource "aws_eks_node_group" "desafio-eks-nodes-ondemand" {
   capacity_type   = "ON_DEMAND"
   instance_types  = ["t3a.medium"]
   scaling_config {
-    desired_size  = 1
-    max_size      = 1
-    min_size      = 1
+    desired_size = 1
+    max_size     = 1
+    min_size     = 1
   }
 
   tags = {
-    Name          = "Desafio-EKS-node-group-LucasMenezes"
+    Name = "Desafio-EKS-node-group-LucasMenezes"
   }
 }
 
@@ -125,13 +135,13 @@ resource "aws_eks_node_group" "desafio-eks-nodes-spot" {
   capacity_type   = "SPOT"
   instance_types  = ["t3a.medium"]
   scaling_config {
-    desired_size  = 1
-    max_size      = 1
-    min_size      = 1
+    desired_size = 1
+    max_size     = 2
+    min_size     = 1
   }
 
   tags = {
-    Name          = "Desafio-EKS-nodes-spot-LucasMenezes"
+    Name = "Desafio-EKS-nodes-spot-LucasMenezes"
   }
 }
 
@@ -143,13 +153,13 @@ resource "aws_eks_node_group" "desafio-eks-nodes-spot-2" {
   capacity_type   = "SPOT"
   instance_types  = ["t3a.medium"]
   scaling_config {
-    desired_size  = 1
-    max_size      = 1
-    min_size      = 1
+    desired_size = 1
+    max_size     = 2
+    min_size     = 1
   }
 
   tags = {
-    Name          = "Desafio-EKS-nodes-spot2-LucasMenezes"
+    Name = "Desafio-EKS-nodes-spot2-LucasMenezes"
   }
 }
 

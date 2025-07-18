@@ -8,14 +8,18 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/lumr/desafio-ps-sre.git
-    path: k8s
+    repoURL: https://github.com/lumr92/desafio-ps-sre.git
+    path: k8s/deployment
     targetRevision: HEAD
-    directory: {}
-    destination:
-      #server: https://192.168.1.100:8443
-      server: https://kubernetes.default.svc
-      namespace: default
-    syncPolicy:
-      syncOptions:
+    directory:
+      recurse: true
+      exclude: 'argocd-values.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
       - CreateNamespace=true

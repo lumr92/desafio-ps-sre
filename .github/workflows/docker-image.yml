@@ -31,10 +31,10 @@ jobs:
           push: true                                                           # Habilita o push da imagem após o build
           tags: |                                                              # Define as tags para a imagem
             ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:${{ github.sha }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/desafio-sre:v${{ github.run_id }}
            
           # Desabilita a adição automática de tags baseadas no ref
-          tags-from-ref: false
+          #tags-from-ref: false
 
       
       #- name: Config credenciais AWS
