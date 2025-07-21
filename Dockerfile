@@ -5,14 +5,21 @@ RUN apt-get update && apt-get install -qq -y \
 
 WORKDIR /app
 
-COPY /app/requirements.txt requirements.txt
+# Copia primeiro o requirements.txt
+COPY app/requirements.txt .
+
+# Instala as dependências
 RUN pip install -r requirements.txt
 RUN opentelemetry-bootstrap -a install
+
+# Copia o resto da aplicação
+COPY app/ .
+
+# Variáveis de ambiente
 ENV OTEL_SERVICE_NAME=svc-app
 ENV OTEL_TRACES_EXPORTER=console,otlp 
 ENV OTEL_METRICS_EXPORTER=console 
-ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=0.0.0.0:4317 
+ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=0.0.0.0:4317
 
-COPY . .
-
+# Comando para rodar a aplicação
 CMD ["opentelemetry-instrument", "python3", "app.py"]

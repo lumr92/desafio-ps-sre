@@ -24,9 +24,11 @@ services:
       - app-network
 
   desafio-sre:
-    build: "~/elven/estudos/desafio-sre/docker/Dockerfile"
+    build: 
+      context: ..
+      dockerfile: Dockerfile
     volumes:
-      - ".:/app"
+      - "../app:/app/app"
     ports:
       - "5000:5000"
       - "9999:9999"

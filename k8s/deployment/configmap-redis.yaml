@@ -4,6 +4,5 @@ metadata:
   name: configmap-redis
   namespace: default
 data:
-  POSTGRES_USER: "postgres"
-  POSTGRES_PASSWORD: "senhafacil"
-  POSTGRES_DB: "postgres"
+  REDIS_HOST: "svc-redis"
+  REDIS_PORT: "6379"
