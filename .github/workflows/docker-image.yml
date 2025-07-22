@@ -3,16 +3,12 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-    paths-ignore:
-      - "k8s/deployment/deploy-app.yaml"
-      - '.github/workflows/*'
+
+permissions:
+  content: "write"
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +32,29 @@ jobs:
           # Desabilita a adição automática de tags baseadas no ref
           #tags-from-ref: false
 
-      
+  modifygit: 
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+     
+      - name: Atualizando imagem do deployment
+        run: |
+          git config user.email lucasmenezes9251@gmail.com
+          git config user.name lumr92
+          cd k8s/deployment
+          pwd
+          cat deploy-app.yaml
+          pwd
+          sed -i "s+lumr92/desafio-sre.*+lumr92/desafio-sre:v$RUN_ID+g" deploy-app.yaml
+          cat deploy-app.yaml
+          git add .
+          git commit -m "Done by Github Actions Job mudança de manifesto: $RUN_ID"
+          git push origin main
+        env:
+          TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+          RUN_ID: ${{ github.run_id }}
+
       #- name: Config credenciais AWS
       #  uses: aws-actions/configure-aws-credentials@v4
       #  with:
