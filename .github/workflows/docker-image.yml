@@ -48,9 +48,11 @@ jobs:
           pwd
           sed -i "s+lumr92/desafio-sre.*+lumr92/desafio-sre:v$RUN_ID+g" deploy-app.yaml
           cat deploy-app.yaml
-          git add .
-          git commit -m "Done by Github Actions Job mudança de manifesto: $RUN_ID"
-          git push origin main
+          git diff --quiet || {
+            git add .
+            git commit -m "Done by Github Actions Job mudança de manifesto: $RUN_ID"
+            git push origin main
+          }
         env:
           TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
           RUN_ID: ${{ github.run_id }}
