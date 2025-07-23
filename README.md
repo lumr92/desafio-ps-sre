@@ -20,12 +20,8 @@ Desafio 6 - Provisionar os recursos VPC (2 zonas de disponibilidade), EKS (3 nod
 
 Desafio 7 - Fazer o deploy da aplicação utilizando o Argo CD (esta pipiline deve utilizar o github actions para fazer a etapa do build e o repositorio de imagens deve ser o docker)
 
-Desafio 8 - Coletar metricas de APM e Recursos
+Desafio 8 - Provisionar stack LGT local em docker compose e depois no EKS para coletar logs do cluster de aplicação
 
-Desafio 9 - Coletar logs do cluster e aplicação e enviar para o opensearch
+Desafio 9 - Coletar 4 golden signals
 
-Desafio 10 - Deixar todos os arquivos values, configs e etc (infra, app e etc) organizado dentro de um repositorio de manteira organizada e documentada (infra-as-code)
-
-Desafio 11 - Uma documentação completa de tudo que foi feito, as dificuldades e o aprendizados durante o desafio
-
-*** Obs.: Garantir que tudo siga os padroes de qualidade, disponibilidade e segurança ***
+Desafio 10 - Uma documentação completa de tudo que foi feito, as dificuldades e o aprendizados durante o desafio
