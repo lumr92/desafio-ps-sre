@@ -21,3 +21,22 @@ variable "db-password" {
   default     = "password"
   type        = string
 }
+
+variable "cluster_name" {
+  description = "Nome do cluster EKS"
+  type        = string
+  default     = "Desafio-cluster-eks-LucasMenezes"
+}
+
+variable "domain_name" {
+  description = "Domain name for ingress"
+  type        = string
+  default     = "desafio.app"
+}
+
+variable "certificate_arn" {
+  description = "SSL certificate ARN from ACM"
+  type        = string
+  default     = ""
+}
+

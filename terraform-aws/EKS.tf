@@ -70,9 +70,17 @@ resource "aws_iam_role_policy_attachment" "desafio-attach-nodes-worknode-policy"
   role       = aws_iam_role.desafio-role-nodes-eks-cluster.name
 }
 
+data "aws_eks_cluster" "Desafio-cluster-eks-LucasMenezes" {
+  name = aws_eks_cluster.desafio-cluster-eks.name
+}
+
+data "aws_eks_cluster_auth" "Desafio-cluster-eks-LucasMenezes-auth" {
+  name = aws_eks_cluster.desafio-cluster-eks.name
+}
+
 # Criação do cluster k8s
 resource "aws_eks_cluster" "desafio-cluster-eks" {
-  name     = "Desafio-cluster-eks-LucasMenezes"
+  name     = var.cluster_name
   role_arn = aws_iam_role.desafio-role-eks-cluster.arn
   vpc_config {
     security_group_ids = [aws_security_group.desafio-sg-cluster-eks.id]

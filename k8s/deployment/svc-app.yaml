@@ -3,14 +3,16 @@ kind: Service
 metadata:
   name: svc-app
   namespace: default
+  labels:
+    app: app-desafio-sre
 spec:
   type: ClusterIP
   ports:
     - port: 80
       targetPort: 5000
       name: web
-    - port: 9999
-      targetPort: 9999
+    - port: 8080
+      targetPort: 8080
       name: metrics
   selector:
     app: app-desafio-sre
