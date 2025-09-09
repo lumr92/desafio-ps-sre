@@ -1,3 +1,7 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
 controller:
   replicaCount: 2
   minAvailable: 1

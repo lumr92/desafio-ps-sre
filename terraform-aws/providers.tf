@@ -16,7 +16,9 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region                   = var.aws_region
+  shared_credentials_files = ["~/.aws/credentials"]
+  profile                  = "default"
 }
 
 provider "kubernetes" {

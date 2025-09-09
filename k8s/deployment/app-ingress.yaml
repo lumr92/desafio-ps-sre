@@ -8,18 +8,14 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-proxy-protocol: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header Host $host;
-      
+    
 spec:
   tls:
     - hosts:
-      - desafio.app
+        - desafio.app
       secretName: desafio-app-tls
   rules:
+    - host: desafio.app
       http:
         paths:
         - path: /

@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
 COPY app/requirements.txt .
 
 # Instala as dependências
+RUN pip install flask requests
 RUN pip install --no-cache-dir -r requirements.txt
 RUN opentelemetry-bootstrap -a install
 
