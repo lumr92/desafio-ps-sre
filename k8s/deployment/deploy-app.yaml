@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app-container
-          image: lumr/desafio-sre:v16471055656
+          image: lumr/desafio-sre:v17501604502
           ports:
             - containerPort: 5000
               name: http-web
